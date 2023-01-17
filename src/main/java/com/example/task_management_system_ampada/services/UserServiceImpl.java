@@ -1,5 +1,6 @@
 package com.example.task_management_system_ampada.services;
 
+import com.example.task_management_system_ampada.exceptions.UserNotFoundException;
 import com.example.task_management_system_ampada.models.User;
 import com.example.task_management_system_ampada.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
             user.setPassword(newUser.getPassword());
             return userRepository.save(user);
         }).orElseThrow(() -> {
-            throw new RuntimeException();
+            throw new UserNotFoundException();
         });
     }
 

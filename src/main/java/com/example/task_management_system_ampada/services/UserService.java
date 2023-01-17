@@ -3,10 +3,11 @@ package com.example.task_management_system_ampada.services;
 import com.example.task_management_system_ampada.models.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
-    User findUserById(String id);
+    Optional<User> findUserById(String id);
 
     List<User> findAllUsers();
 

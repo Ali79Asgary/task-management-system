@@ -9,7 +9,7 @@ public interface BoardService {
 
     Optional<Board> findBoardById(String id);
 
-    List<Board> findAllBoard();
+    List<Board> findAllBoards();
 
     Board saveBoard(Board board);
 

@@ -21,12 +21,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findUserById(String id) {
-        return userRepository.findById(id);
+        if (userRepository.findById(id).isPresent())
+            return userRepository.findById(id);
+        else
+            throw new UserNotFoundException();
     }
 
     @Override
     public List<User> findAllUsers() {
-        return userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        if (!users.isEmpty())
+            return users;
+        else
+            throw new UserNotFoundException();
     }
 
     @Override
@@ -47,6 +54,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserById(String id) {
-        userRepository.deleteById(id);
+        if (userRepository.existsById(id))
+            userRepository.deleteById(id);
+        else
+            throw new UserNotFoundException();
     }
 }

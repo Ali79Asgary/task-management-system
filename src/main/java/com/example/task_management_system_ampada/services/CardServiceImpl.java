@@ -1,5 +1,6 @@
 package com.example.task_management_system_ampada.services;
 
+import com.example.task_management_system_ampada.exceptions.CardNotFoundException;
 import com.example.task_management_system_ampada.models.Card;
 import com.example.task_management_system_ampada.repositories.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CardServiceImpl implements CardService{
+public class CardServiceImpl implements CardService {
 
     private CardRepository cardRepository;
 
@@ -21,12 +22,19 @@ public class CardServiceImpl implements CardService{
 
     @Override
     public Optional<Card> findCardById(String id) {
-        return cardRepository.findById(id);
+        if (cardRepository.findById(id).isPresent())
+            return cardRepository.findById(id);
+        else
+            throw new CardNotFoundException();
     }
 
     @Override
     public List<Card> findAllCards() {
-        return cardRepository.findAll();
+        List<Card> cards = cardRepository.findAll();
+        if (!cards.isEmpty())
+            return cards;
+        else
+            throw new CardNotFoundException();
     }
 
     @Override
@@ -43,12 +51,15 @@ public class CardServiceImpl implements CardService{
             card.setModifiedOn(LocalDateTime.now());
             return cardRepository.save(card);
         }).orElseThrow(() -> {
-            throw new RuntimeException();
+            throw new CardNotFoundException();
         });
     }
 
     @Override
     public void deleteCardById(String id) {
-        cardRepository.deleteById(id);
+        if (cardRepository.existsById(id))
+            cardRepository.deleteById(id);
+        else
+            throw new CardNotFoundException();
     }
 }

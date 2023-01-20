@@ -25,6 +25,11 @@ public class CardController {
     }
 
     @GetMapping(path = "/")
+    public Card findCardByCardTitle(@PathVariable("boardId") String boardId, @RequestParam String cardTitle) {
+        return cardService.findCardByCardTitle(cardTitle);
+    }
+
+    @GetMapping(path = "/")
     public List<Card> findAllCards(@PathVariable("boardId") String boardId) {
         return cardService.findAllCards();
     }

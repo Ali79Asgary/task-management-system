@@ -9,6 +9,8 @@ public interface CardService {
 
     Optional<Card> findCardById(String id);
 
+    Card findCardByCardTitle(String cardTitle);
+
     List<Card> findAllCards();
 
     Card saveCard(Card card);

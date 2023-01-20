@@ -9,6 +9,8 @@ public interface UserService {
 
     Optional<User> findUserById(String id);
 
+    User findUserByUsername(String username);
+
     List<User> findAllUsers();
 
     User saveUser(User user);

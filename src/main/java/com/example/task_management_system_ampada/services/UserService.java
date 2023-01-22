@@ -11,6 +11,10 @@ public interface UserService {
 
     User findUserByUsername(String username);
 
+    User loginUser(String username, String password);
+
+    User signupUser(String username, String password);
+
     List<User> findAllUsers();
 
     User saveUser(User user);

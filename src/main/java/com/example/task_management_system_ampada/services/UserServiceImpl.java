@@ -1,6 +1,7 @@
 package com.example.task_management_system_ampada.services;
 
 import com.example.task_management_system_ampada.exceptions.UserNotFoundException;
+import com.example.task_management_system_ampada.exceptions.UsernameOrPasswordIsWrongException;
 import com.example.task_management_system_ampada.models.User;
 import com.example.task_management_system_ampada.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,28 @@ public class UserServiceImpl implements UserService {
             return user;
         else
             throw new UserNotFoundException();
+    }
+
+    @Override
+    public User loginUser(String username, String password) {
+        User user = userRepository.findUserByUsername(username);
+        if (user != null) {
+            if (user.getPassword().equals(password)) {
+                return user;
+            } else {
+                throw new UsernameOrPasswordIsWrongException();
+            }
+        } else {
+            throw new UserNotFoundException();
+        }
+    }
+
+    @Override
+    public User signupUser(String username, String password) {
+        if (!userRepository.existsUserByUsername(username)) {
+            User user = new User(username, password);
+        }
+        return null;
     }
 
     @Override

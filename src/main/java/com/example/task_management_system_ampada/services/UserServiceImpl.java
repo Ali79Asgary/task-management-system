@@ -1,10 +1,13 @@
 package com.example.task_management_system_ampada.services;
 
+import com.example.task_management_system_ampada.exceptions.UserAlreadyExistsException;
 import com.example.task_management_system_ampada.exceptions.UserNotFoundException;
 import com.example.task_management_system_ampada.exceptions.UsernameOrPasswordIsWrongException;
 import com.example.task_management_system_ampada.models.User;
 import com.example.task_management_system_ampada.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +17,14 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private TokenServiceImpl tokenService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, TokenServiceImpl tokenService) {
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -38,11 +45,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User loginUser(String username, String password) {
+    public String loginUser(String username, String password) {
         User user = userRepository.findUserByUsername(username);
         if (user != null) {
-            if (user.getPassword().equals(password)) {
-                return user;
+            if (user.getPassword().equals(bCryptPasswordEncoder.encode(password))) {
+                String token = tokenService.generateToken(new Authentication(username, password))
+                return
             } else {
                 throw new UsernameOrPasswordIsWrongException();
             }
@@ -55,6 +63,10 @@ public class UserServiceImpl implements UserService {
     public User signupUser(String username, String password) {
         if (!userRepository.existsUserByUsername(username)) {
             User user = new User(username, password);
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+        } else {
+            throw new UserAlreadyExistsException();
         }
         return null;
     }
@@ -70,6 +82,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 

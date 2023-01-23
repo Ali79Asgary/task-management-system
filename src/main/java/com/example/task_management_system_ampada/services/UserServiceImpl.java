@@ -3,14 +3,19 @@ package com.example.task_management_system_ampada.services;
 import com.example.task_management_system_ampada.exceptions.UserNotFoundException;
 import com.example.task_management_system_ampada.models.User;
 import com.example.task_management_system_ampada.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private UserRepository userRepository;
 
@@ -67,5 +72,10 @@ public class UserServiceImpl implements UserService {
             userRepository.deleteById(id);
         else
             throw new UserNotFoundException();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return findUserByUsername(username);
     }
 }

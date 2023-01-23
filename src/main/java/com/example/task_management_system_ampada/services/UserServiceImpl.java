@@ -19,9 +19,30 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private UserRepository userRepository;
 
+    private JWTService jwtService;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, JWTService jwtService) {
         this.userRepository = userRepository;
+        this.jwtService = jwtService;
+    }
+
+    @Override
+    public String loginUser(User data) {
+        User user = findUserByUsername(data.getUsername());
+        String token = jwtService.generateToken(user);
+        return token;
+    }
+
+    @Override
+    public String signupUser(User data) {
+        User user = findUserByUsername(data.getUsername());
+        if (user == null) {
+            saveUser(data);
+        } else {
+            throw new RuntimeException();
+        }
+        return "User Created Successfully!";
     }
 
     @Override

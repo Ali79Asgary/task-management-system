@@ -24,7 +24,7 @@ public class CardController {
         return cardService.findCardById(cardId);
     }
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "/title")
     public Card findCardByCardTitle(@PathVariable("boardId") String boardId, @RequestParam String cardTitle) {
         return cardService.findCardByCardTitle(cardTitle);
     }

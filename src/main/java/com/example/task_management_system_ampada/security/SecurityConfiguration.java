@@ -29,7 +29,7 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .cors().disable()
-                .authorizeHttpRequests().requestMatchers("/api/login/", "/api/signup/").permitAll()
+                .authorizeHttpRequests().requestMatchers("/api/users/login/", "/api/users/signup/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

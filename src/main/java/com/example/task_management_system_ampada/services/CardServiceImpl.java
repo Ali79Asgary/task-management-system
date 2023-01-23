@@ -29,6 +29,15 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
+    public Card findCardByCardTitle(String cardTitle){
+        Card card = cardRepository.findCardByCardTitle(cardTitle);
+        if (card != null)
+            return card;
+        else
+            throw new CardNotFoundException();
+    }
+
+    @Override
     public List<Card> findAllCards() {
         List<Card> cards = cardRepository.findAll();
         if (!cards.isEmpty())

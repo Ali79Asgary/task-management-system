@@ -3,26 +3,61 @@ package com.example.task_management_system_ampada.services;
 import com.example.task_management_system_ampada.exceptions.UserNotFoundException;
 import com.example.task_management_system_ampada.models.User;
 import com.example.task_management_system_ampada.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private UserRepository userRepository;
 
+    private JWTService jwtService;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, JWTService jwtService) {
         this.userRepository = userRepository;
+        this.jwtService = jwtService;
+    }
+
+    @Override
+    public String loginUser(User data) {
+        User user = findUserByUsername(data.getUsername());
+        String token = jwtService.generateToken(user);
+        return token;
+    }
+
+    @Override
+    public String signupUser(User data) {
+        User user = findUserByUsername(data.getUsername());
+        if (user == null) {
+            saveUser(data);
+        } else {
+            throw new RuntimeException();
+        }
+        return "User Created Successfully!";
     }
 
     @Override
     public Optional<User> findUserById(String id) {
         if (userRepository.findById(id).isPresent())
             return userRepository.findById(id);
+        else
+            throw new UserNotFoundException();
+    }
+
+    @Override
+    public User findUserByUsername(String username) {
+        User user = userRepository.findUserByUsername(username);
+        if (user != null)
+            return user;
         else
             throw new UserNotFoundException();
     }
@@ -58,5 +93,10 @@ public class UserServiceImpl implements UserService {
             userRepository.deleteById(id);
         else
             throw new UserNotFoundException();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return findUserByUsername(username);
     }
 }

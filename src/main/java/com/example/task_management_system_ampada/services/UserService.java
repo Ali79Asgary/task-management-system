@@ -7,7 +7,12 @@ import java.util.Optional;
 
 public interface UserService {
 
+    String loginUser(User data);
+
+    String signupUser(User data);
     Optional<User> findUserById(String id);
+
+    User findUserByUsername(String username);
 
     List<User> findAllUsers();
 

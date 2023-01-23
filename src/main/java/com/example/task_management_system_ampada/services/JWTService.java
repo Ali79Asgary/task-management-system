@@ -51,7 +51,7 @@ public class JWTService {
     }
 
     public String generateToken(User user) {
-        return generateToken(user, new HashMap<>());
+        return generateToken(user, new  HashMap<>());
     }
 
     public boolean isValidToken(User user, String token) {

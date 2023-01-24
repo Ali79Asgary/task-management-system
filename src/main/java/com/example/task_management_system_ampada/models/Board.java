@@ -28,6 +28,14 @@ public class Board {
         this.cardsId = cardsId;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getBoardName() {
         return boardName;
     }

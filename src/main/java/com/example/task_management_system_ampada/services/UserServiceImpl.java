@@ -28,24 +28,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public String loginUser(User data) {
-        User user = findUserByUsername(data.getUsername());
-        String token = jwtService.generateToken(user);
-        return token;
-    }
-
-    @Override
-    public String signupUser(User data) {
-        User user = findUserByUsername(data.getUsername());
-        if (user == null) {
-            saveUser(data);
-        } else {
-            throw new RuntimeException();
-        }
-        return "User Created Successfully!";
-    }
-
-    @Override
     public Optional<User> findUserById(String id) {
         if (userRepository.findById(id).isPresent())
             return userRepository.findById(id);

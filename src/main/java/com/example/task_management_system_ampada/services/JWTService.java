@@ -25,7 +25,6 @@ public class JWTService {
 
     public Claims getClaims(String token) {
         return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
-
     }
 
     public <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
@@ -56,14 +55,11 @@ public class JWTService {
 
     public boolean isValidToken(User user, String token) {
         String username = extractUsername(token);
-
         return (username.equals(user.getUsername()) && !isTokenExpired(token));
-
     }
 
     private boolean isTokenExpired(String token) {
         return extractExpirationDate(token).before(new Date());
-
     }
 
     private Date extractExpirationDate(String token) {

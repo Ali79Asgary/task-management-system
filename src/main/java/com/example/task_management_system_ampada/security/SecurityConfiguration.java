@@ -1,6 +1,5 @@
 package com.example.task_management_system_ampada.security;
 
-import com.example.task_management_system_ampada.exceptions.UserNotFoundException;
 import com.example.task_management_system_ampada.repositories.UserRepository;
 import com.example.task_management_system_ampada.services.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -32,11 +31,12 @@ public class SecurityConfiguration {
     public UserDetailsService userDetailsService() {
         return userRepository::findUserByUsername;
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .cors().disable()
+//                .cors().disable()
                 .authorizeHttpRequests().requestMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

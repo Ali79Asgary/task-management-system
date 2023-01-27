@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -21,9 +23,17 @@ public class Card {
     public String id;
     public String cardTitle;
     public String boardId;
+    @CreatedDate
     public LocalDateTime createdOn;
+    @LastModifiedDate
     public LocalDateTime modifiedOn;
     public ArrayList<String> usersId;
+
+    public Card(String cardTitle, String boardId, ArrayList<String> usersId) {
+        this.cardTitle = cardTitle;
+        this.boardId = boardId;
+        this.usersId = usersId;
+    }
 
     public Card(String cardTitle, String boardId, LocalDateTime createdOn, LocalDateTime modifiedOn, ArrayList<String> usersId) {
         this.cardTitle = cardTitle;

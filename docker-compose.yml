@@ -8,11 +8,11 @@ services:
     ports:
       - "27017:27017"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=pass
+      - MONGO_INITDB_ROOT_USERNAME=user1
+      - MONGO_INITDB_ROOT_PASSWORD=pass1
       - MONGO_INITDB_DATABASE=mongo
-      - MONGO_DB_USERNAME=user
-      - MONGO_DB_PASSWORD=pass
+      - MONGO_DB_USERNAME=user2
+      - MONGO_DB_PASSWORD=pass2
     volumes:
       - mongo_data_host:/data/db/
       - mongo_log_host:/var/log/mongodb/
@@ -38,8 +38,8 @@ services:
       - SPRING_DATA_MONGODB_AUTO_INDEX_CREATION=$MONGO_AUTO_INDEX_CREATION
       - SPRING_DATA_MONGODB_HOST=mongo
       - SPRING_DATA_MONGODB_PORT=27017
-      - SPRING_DATA_MONGODB_USERNAME=user
-      - SPRING_DATA_MONGODB_PASSWORD=pass
+      - SPRING_DATA_MONGODB_USERNAME=user1
+      - SPRING_DATA_MONGODB_PASSWORD=pass1
       - SPRING_DATA_MONGODB_DATABASE=mongo
 
 

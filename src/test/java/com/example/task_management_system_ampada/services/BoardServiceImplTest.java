@@ -1,7 +1,6 @@
 package com.example.task_management_system_ampada.services;
 
 import com.example.task_management_system_ampada.exceptions.BoardNotFoundException;
-import com.example.task_management_system_ampada.exceptions.UserNotFoundException;
 import com.example.task_management_system_ampada.models.Board;
 import com.example.task_management_system_ampada.repositories.BoardRepository;
 import org.junit.jupiter.api.Assertions;

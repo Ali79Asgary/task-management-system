@@ -5,7 +5,7 @@ COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 RUN ./mvnw dependency:go-offline
 COPY ./src ./src
-RUN ./mvnw install
+RUN ./mvnw clean install
 
 
 FROM openjdk:19-jdk-slim-bullseye

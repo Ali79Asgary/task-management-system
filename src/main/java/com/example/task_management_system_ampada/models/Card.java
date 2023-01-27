@@ -1,10 +1,20 @@
 package com.example.task_management_system_ampada.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+@Document
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Card {
 
     @Id
@@ -14,9 +24,6 @@ public class Card {
     public LocalDateTime createdOn;
     public LocalDateTime modifiedOn;
     public ArrayList<String> usersId;
-
-    public Card() {
-    }
 
     public Card(String cardTitle, String boardId, LocalDateTime createdOn, LocalDateTime modifiedOn, ArrayList<String> usersId) {
         this.cardTitle = cardTitle;

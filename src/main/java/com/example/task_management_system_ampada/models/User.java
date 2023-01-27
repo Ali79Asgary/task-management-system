@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+@Document
 @Data
 @Builder
 @NoArgsConstructor
@@ -19,9 +22,10 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     public String id;
+    @Indexed(unique = true)
     public String username;
     public String password;
-    public Role roles;
+    public Role roles = Role.USER;
 
     public User(String username, String password) {
         this.username = username;

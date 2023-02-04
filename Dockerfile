@@ -1,15 +1,9 @@
-# syntax=docker/dockerfile:1.4
-FROM openjdk:19-jdk-slim-bullseye as builder
-WORKDIR /opt/app
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
-COPY ./src ./src
-RUN ./mvnw clean install
-
+FROM openjdk:19-jdk-slim-bullseye AS builder
+ADD . /app
+WORKDIR /app
+RUN ./mvnw clean package -DskipTests
 
 FROM openjdk:19-jdk-slim-bullseye
-WORKDIR /opt/app
+COPY --from=builder /app/target/*.jar  app.jar
 EXPOSE 8080
-COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
-ENTRYPOINT ["java", "-jar", "/opt/app/*.jar" ]
+ENTRYPOINT ["java","-jar","app.jar"]

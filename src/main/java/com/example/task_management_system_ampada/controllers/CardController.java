@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/api/boards/{boardId}/cards")
+@RequestMapping(path = "/api/v1/boards/{boardId}/cards")
 public class CardController {
     private final CardService cardService;
 

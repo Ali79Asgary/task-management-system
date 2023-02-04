@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/api/boards")
+@RequestMapping(path = "/api/v1/boards")
 public class BoardController {
     private final BoardService boardService;
 
